@@ -1,0 +1,27 @@
+type Client @db(name: "clients") {
+  ID: ID! @id
+  name: String @db(name: "Name")
+  projects: [Project]
+}
+
+type Cost @db(name: "costs") {
+  ID: ID! @id
+  amount: Float @db(name: "Amount")
+  costType: CostType @db(name: "Cost_Type_ID")
+  project: Project @db(name: "Project_ID")
+}
+
+type CostType @db(name: "cost_types") {
+  ID: ID! @id
+  costs: [Cost]
+  costTypes: [CostType] @relation(name: "RelationA")
+  name: String @db(name: "Name")
+  parentCostType: CostType @db(name: "Parent_Cost_Type_ID") @relation(name: "RelationB")
+}
+
+type Project @db(name: "projects") {
+  ID: ID! @id
+  client: Client @db(name: "Client_ID")
+  costs: [Cost]
+  title: String @db(name: "Title")
+}
